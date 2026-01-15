@@ -6,7 +6,46 @@
 // クイックソート(引数が不適切であればfalseを返す)
 bool quick_sort(item* begin, const item* end)
 {
-	// ToDo: クイックソートで並び替えてください
+	if (begin == nullptr || end == nullptr || begin > end) {
+		return false;
+	}
 
-	return false;
+	long long size = end - begin;
+
+	if (size <= 1) {
+		return true;
+	}
+
+	item pivot = *(begin + size / 2);
+
+	item* left = begin;
+	item* right = begin + (size - 1);
+
+	while (left <= right) {
+		while (left->key < pivot.key) {
+			left++;
+		}
+		while (right->key > pivot.key) {
+			right--;
+		}
+
+		if (left <= right) {
+			item temp = *left;
+			*left = *right;
+			*right = temp;
+
+			left++;
+			right--;
+		}
+	}
+
+	if (begin < right + 1) {
+		if (!quick_sort(begin, right + 1)) return false;
+	}
+
+	if (left < end) {
+		if (!quick_sort(left, end)) return false;
+	}
+
+	return true;
 }
